@@ -1,0 +1,68 @@
+package com.spring.jpa.hibernate.app.repository;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import com.spring.jpa.hibernate.app.AppApplication;
+import com.spring.jpa.hibernate.app.entity.Course;
+
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = AppApplication.class)
+public class CourseRepositoryTest {
+
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	
+	@Autowired
+	CourseRepository repository;	
+		
+	@Test
+	public void Course_findById() {
+		logger.info("Tests Running !");		
+		Course course = repository.findById(2l);			
+		assertEquals("Spring Boot", course.getName());
+		assertEquals(new Long(2), course.getId());
+	}
+		
+	@Test
+	@DirtiesContext // this way the data changed will return to its original state before the test
+	public void Course_deleteById() {
+		logger.info("Tests Running !");			
+		repository.deleteById(2l);		
+		assertNull(repository.findById(2l));
+	}
+	
+
+	@Test
+	@DirtiesContext // this way the data changed will return to its original state before the test
+	public void Course_save() {
+		logger.info("Tests Running !");			
+		Course course = new Course("test");
+		repository.save(course);		
+		assertEquals("test",repository.findById(5l).getName());
+		
+		course = repository.findById(5l);
+		course.setName("Teste update");
+		repository.save(course);
+		assertEquals("Teste update", repository.findById(course.getId()).getName());
+		
+	}
+	
+	@Test
+	@DirtiesContext // this way the data changed will return to its original state before the test
+	public void playWithEntityManagerTest() {
+		logger.info("Play with entity manager start!");	
+		repository.playWithEntityManager();		
+	}
+
+
+
+}

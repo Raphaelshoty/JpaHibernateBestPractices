@@ -3,6 +3,8 @@ package com.spring.jpa.hibernate.app.repository;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+import javax.persistence.EntityManager;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -11,9 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.jpa.hibernate.app.AppApplication;
 import com.spring.jpa.hibernate.app.entity.Course;
+import com.spring.jpa.hibernate.app.entity.Review;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = AppApplication.class)
@@ -22,7 +26,10 @@ public class CourseRepositoryTest {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
-	CourseRepository repository;	
+	CourseRepository repository;
+	
+	@Autowired
+	EntityManager em;
 		
 	@Test
 	public void Course_findById() {
@@ -63,6 +70,23 @@ public class CourseRepositoryTest {
 		repository.playWithEntityManager();		
 	}
 
+	
+	
+	@Test
+	@Transactional
+	public void retrieveReviewsForCourse() {
+		Course course = repository.findById(2L);
+		logger.info("Reviews of the course -> {}",course.getReviews());
+	}
+	
+	@Test
+	@Transactional
+	public void retrieveCourseForReview() {		
+		Review rev = em.find(Review.class, 3L); 
+		logger.info("Course from review -> {}", rev.getCourse());
+	}
+
+	
 
 
 }

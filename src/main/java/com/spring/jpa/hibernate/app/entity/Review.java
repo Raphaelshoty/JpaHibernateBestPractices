@@ -30,7 +30,7 @@ public class Review {
 	private String rating;
 	
 	@NotNull
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY) // the default fetch to manyToOne is Eager and its reverse OneToMany is Lazy
 	@JoinColumn(name = "course_id", foreignKey = @ForeignKey(name = "fk_review_course"))
 	private Course course;
 	

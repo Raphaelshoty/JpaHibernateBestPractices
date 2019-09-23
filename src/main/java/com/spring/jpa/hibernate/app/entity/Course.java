@@ -38,6 +38,7 @@ public class Course {
 	@NotBlank	
 	private String name;	
 	
+	// for oneToMany mapping is Lazy by default
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "course")	 // WHERE THE mappedBy goes i should not use @JoinColumn or @JoinTable 
 	private Set<Review> reviews = new HashSet<>();
 	

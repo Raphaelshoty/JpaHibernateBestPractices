@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
@@ -41,6 +42,9 @@ public class Student {
 		inverseJoinColumns = @JoinColumn(name = "course_id", foreignKey = @ForeignKey(name = "fk_student_course"))
 	)	// typical from use in manyToMany relationship, where i have one table between to entities		
 	private Set<Course> courses = new HashSet<>();
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "student")
+	private Set<Review> reviews = new HashSet<>();
 	
 	
 	public Student() {		
@@ -85,6 +89,14 @@ public class Student {
 	
 	public void removeCourse(Course course) {
 		this.courses.remove(course);
+	}	
+
+	public Set<Review> getReviews() {
+		return reviews;
+	}
+
+	public void setReview(Review review) {
+		this.reviews.add(review);
 	}
 
 	@Override

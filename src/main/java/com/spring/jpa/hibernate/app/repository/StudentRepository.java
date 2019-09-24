@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.jpa.hibernate.app.entity.Course;
 import com.spring.jpa.hibernate.app.entity.Passport;
+import com.spring.jpa.hibernate.app.entity.Review;
 import com.spring.jpa.hibernate.app.entity.Student;
 
 @Repository
@@ -21,16 +22,6 @@ public class StudentRepository {
 	@Autowired
 	EntityManager em;
 	
-	public void someDataBaseOperations() {		
-		// op1 - retrieve student		
-		Student student = em.find(Student.class, 1L);		
-		//op2 - retrieve passport
-		Passport pass = student.getPassport();		
-		//op3 - update passport
-		pass.setNumber("RRL512905");		
-		//op4 - update student
-		student.setName("Raphael R. Lima");			
-	}
 	
 	public Student findById(Long id) {
 		return em.find(Student.class, id);
@@ -85,8 +76,13 @@ public class StudentRepository {
 		course.setStudent(stu);
 		
 		// on that moment i persist only the owning side of the relationship, or the side that has the foreign keys and the joinTable, and don´t have the mappedby property
+		em.persist(stu);		
+	}
+	
+	public void insertStudentAndReview(Student stu, Review rev ) {
 		em.persist(stu);
-		
+		rev.setStudent(stu);
+		em.persist(rev);		
 	}
 
 }

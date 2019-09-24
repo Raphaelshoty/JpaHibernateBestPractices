@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.jpa.hibernate.app.entity.Course;
 import com.spring.jpa.hibernate.app.entity.Review;
+import com.spring.jpa.hibernate.app.entity.Student;
 
 @Repository
 @Transactional
@@ -54,6 +55,12 @@ public class ReviewRepository {
 	
 	public void deleteEntity(Review rev) {
 		em.remove(rev);
+	}
+	
+	public void insertReviewAndStudent(Review rev, Student stu) {
+		em.persist(stu);
+		rev.setStudent(stu);
+		em.persist(rev);
 	}
 	
 }

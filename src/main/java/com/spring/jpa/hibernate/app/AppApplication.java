@@ -14,6 +14,7 @@ import com.spring.jpa.hibernate.app.entity.Course;
 import com.spring.jpa.hibernate.app.entity.Review;
 import com.spring.jpa.hibernate.app.entity.Student;
 import com.spring.jpa.hibernate.app.repository.CourseRepository;
+import com.spring.jpa.hibernate.app.repository.ReviewRepository;
 import com.spring.jpa.hibernate.app.repository.StudentRepository;
 
 @SpringBootApplication
@@ -25,6 +26,9 @@ public class AppApplication implements CommandLineRunner {
 	@Autowired
 	private StudentRepository studentRepo;
 	
+	@Autowired
+	private ReviewRepository revRepo;
+	
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
@@ -34,20 +38,13 @@ public class AppApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		
-//		Course course = courseRepo.findById(2L);
-//		Set<Review> reviews = new HashSet<>();;
-//		reviews.add(new Review("Hatsoff", "5"));
-//		reviews.add(new Review("Amazing", "5"));
-// 		
-//		courseRepo.addReviewsForCourse(course.getId(), reviews);
-		
 		Student stu = new Student("Jose");
-		Course course = new Course("Microservices");
-				
-		//studentRepo.insertStudentAndCourse(stu, course);
+		Course course  = courseRepo.findById(1L);
+		stu.setCourse(course);
+		Review rev = new Review("Foda", "5", course, stu);		
 		
-		courseRepo.insertCourseAndStudent(course, stu);
+		//studentRepo.insertStudentAndReview(stu, rev);
+		revRepo.insertReviewAndStudent(rev, stu);
 		
 	}
 

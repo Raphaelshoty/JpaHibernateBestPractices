@@ -34,11 +34,23 @@ public class Review {
 	@JoinColumn(name = "course_id", foreignKey = @ForeignKey(name = "fk_review_course"))
 	private Course course;
 	
+	@NotNull
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "student_id", foreignKey = @ForeignKey(name = "fk_review_student"))
+	private Student student;
+	
 	public Review(){}
 	
 	public Review(String description,@NotBlank  String rating) {
 		this.rating = rating;
 		this.description = description;
+	}
+	
+	public Review(String description, @NotBlank String rating, @NotNull Course course, @NotNull Student student) {
+		this.description = description;
+		this.rating = rating;
+		this.course = course;
+		this.student = student;
 	}
 
 	public String getDescription() {
@@ -67,6 +79,14 @@ public class Review {
 
 	public void setCourse(Course course) {
 		this.course = course;
+	}  
+
+	public Student getStudent() {
+		return student;
+	}
+
+	public void setStudent(Student student) {
+		this.student = student;
 	}
 
 	@Override

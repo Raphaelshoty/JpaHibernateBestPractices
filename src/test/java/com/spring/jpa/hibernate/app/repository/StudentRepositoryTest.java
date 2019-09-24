@@ -32,10 +32,6 @@ public class StudentRepositoryTest {
 	//(JPA) EntityManager(jpa interface to persistence context) & persistence context(started at the start of the transaction begin and finished at it´s end)
 	// transaction
 	
-	@Test		
-	public void someDataBaseOperations() {
-		studentRepo.someDataBaseOperations();		
-	}
 	
 	@Test
 	@Transactional

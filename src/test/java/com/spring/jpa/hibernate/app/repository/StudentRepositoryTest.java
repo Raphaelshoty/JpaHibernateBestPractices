@@ -25,7 +25,7 @@ public class StudentRepositoryTest {
 	
 	@Autowired
 	private StudentRepository studentRepo;
-	
+		
 	@Autowired
 	EntityManager em;
 	//(Hibernate) session(persistence context in hibernate terminology) and session factory
@@ -59,9 +59,22 @@ public class StudentRepositoryTest {
 		logger.info("Student details -> {}", pass.getStudent());
 		
 		// during my tests i could notice that, on context of test, the only way to persist the modifications that i made on entities is forcing it by a flush() and for that i need a @Transactional for that
-//		pass.getStudent().setName("Raphael Lima");
-//		em.flush();
-//		
+		// pass.getStudent().setName("Raphael Lima");
+		// em.flush();
+		//	latter on i discovered that the behavior above is due to the em, the em is managing only the the passport not the entity related to it, on this case the Student.	
+	}
+	
+	@Test
+	@Transactional // remember that the @transactional makes possible lazy relationship to be fetched without lazyInitializedException
+	public void retrieveDataFromCourseAndStudent() {
+		logger.info("Tests Running !");
+		Student stu = em.find(Student.class, 1L);
+		logger.info("Student -> {}",stu);
+		logger.info("Student courses-> {}",stu.getCourses());
+		
+		
+		
+		
 	}
 	
 	

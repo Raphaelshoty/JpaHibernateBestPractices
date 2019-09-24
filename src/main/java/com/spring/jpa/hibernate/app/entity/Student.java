@@ -1,6 +1,9 @@
 package com.spring.jpa.hibernate.app.entity;
 
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,6 +12,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
@@ -29,6 +34,14 @@ public class Student {
 	@OneToOne(fetch = FetchType.LAZY)// this modify the default behavior of the OneToOne fetch which is eager, to lazy	
 	@JoinColumn(name = "passport_id", foreignKey = @ForeignKey(name = "fk_student_passport"))//  specify that this column is special, its a column to represents a join to another table 
 	private Passport passport;
+	
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "student_course", 
+		joinColumns = @JoinColumn(name = "student_id", foreignKey = @ForeignKey(name = "fk_course_student")), 
+		inverseJoinColumns = @JoinColumn(name = "course_id", foreignKey = @ForeignKey(name = "fk_student_course"))
+	)	// typical from use in manyToMany relationship, where i have one table between to entities		
+	private Set<Course> courses = new HashSet<>();
+	
 	
 	public Student() {		
 	}
@@ -60,6 +73,18 @@ public class Student {
 
 	public void setPassport(Passport passport) {
 		this.passport = passport;
+	}
+   	
+	public Set<Course> getCourses() {
+		return courses;
+	}
+
+	public void setCourse(Course course) {
+		this.courses.add(course);
+	}
+	
+	public void removeCourse(Course course) {
+		this.courses.remove(course);
 	}
 
 	@Override

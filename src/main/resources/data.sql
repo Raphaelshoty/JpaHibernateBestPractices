@@ -28,3 +28,12 @@ insert into Review(ID, DESCRIPTION, RATING, COURSE_ID) VALUES(2, 'Interesting', 
 insert into Review(ID, DESCRIPTION, RATING, COURSE_ID) VALUES(3, 'COOL and Instructive ', '4', 1);
 insert into Review(ID, DESCRIPTION, RATING, COURSE_ID) VALUES(4, 'Amazing', '5', 1);
 insert into Review(ID, DESCRIPTION, RATING, COURSE_ID) VALUES(5, 'Bad ass', '5', 2);
+
+/*student_course*/
+insert into student_course(student_id, course_id) values(1,1);
+insert into student_course(student_id, course_id) values(1,2);
+insert into student_course(student_id, course_id) values(4,2);
+insert into student_course(student_id, course_id) values(3,4);
+insert into student_course(student_id, course_id) values(1,4);
+insert into student_course(student_id, course_id) values(5,2);
+

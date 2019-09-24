@@ -41,6 +41,7 @@ public class CourseRepositoryTest {
 		
 	@Test
 	@DirtiesContext // this way the data changed will return to its original state before the test
+	@Transactional
 	public void Course_deleteById() {
 		logger.info("Tests Running !");			
 		repository.deleteById(2l);		
@@ -85,6 +86,14 @@ public class CourseRepositoryTest {
 		Review rev = em.find(Review.class, 3L); 
 		logger.info("Course from review -> {}", rev.getCourse());
 	}
+	
+	@Test
+	@Transactional
+	public void retrieveCourseAndStudents() {		
+		Course course = em.find(Course.class, 2L);
+		logger.info("Course -> {} and students attending to it -> {}", course, course.getStudents());
+	}
+
 
 	
 

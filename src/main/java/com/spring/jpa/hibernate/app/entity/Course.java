@@ -1,7 +1,6 @@
 package com.spring.jpa.hibernate.app.entity;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,7 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -41,6 +40,9 @@ public class Course {
 	// for oneToMany mapping is Lazy by default
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "course")	 // WHERE THE mappedBy goes i should not use @JoinColumn or @JoinTable 
 	private Set<Review> reviews = new HashSet<>();
+	
+	@ManyToMany(mappedBy = "courses",fetch = FetchType.LAZY)	
+	private Set<Student> students = new HashSet<>();
 	
 	// register when the row or the entity was updated
 	@UpdateTimestamp
@@ -86,6 +88,17 @@ public class Course {
 	
 	public void removeReview(Review review){
 		this.reviews.remove(review);
+	}
+	
+	public Set<Student> getStudents() {
+		return students;
+	}
+
+	public void setStudent(Student student) {
+		this.students.add(student);
+	}
+	public void removeStudent(Student student) {
+		this.students.remove(student);
 	}
 
 	@Override

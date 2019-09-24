@@ -12,6 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.spring.jpa.hibernate.app.entity.Course;
 import com.spring.jpa.hibernate.app.entity.Review;
+import com.spring.jpa.hibernate.app.entity.Student;
 import com.spring.jpa.hibernate.app.repository.CourseRepository;
 import com.spring.jpa.hibernate.app.repository.StudentRepository;
 
@@ -34,13 +35,20 @@ public class AppApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		
-		Course course = courseRepo.findById(2L);
-		Set<Review> reviews = new HashSet<>();;
-		reviews.add(new Review("Hatsoff", "5"));
-		reviews.add(new Review("Amazing", "5"));
- 		
-		courseRepo.addReviewsForCourse(course.getId(), reviews);
+//		Course course = courseRepo.findById(2L);
+//		Set<Review> reviews = new HashSet<>();;
+//		reviews.add(new Review("Hatsoff", "5"));
+//		reviews.add(new Review("Amazing", "5"));
+// 		
+//		courseRepo.addReviewsForCourse(course.getId(), reviews);
+		
+		Student stu = new Student("Jose");
+		Course course = new Course("Microservices");
 				
+		//studentRepo.insertStudentAndCourse(stu, course);
+		
+		courseRepo.insertCourseAndStudent(course, stu);
+		
 	}
 
 }

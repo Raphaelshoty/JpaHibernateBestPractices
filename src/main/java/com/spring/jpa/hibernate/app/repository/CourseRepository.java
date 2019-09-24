@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.jpa.hibernate.app.entity.Course;
 import com.spring.jpa.hibernate.app.entity.Review;
+import com.spring.jpa.hibernate.app.entity.Student;
 
 //mark this repository as a Stereotype Repository, this way the repo is collected and inserted on SPRING 
 //context
@@ -36,7 +38,7 @@ public class CourseRepository  {
 		String qryStr = "Select c From Course c Where UPPER(c.name) Like UPPER(:name) ORDER BY c.name ASC";		
 		Query qry = em.createQuery(qryStr);
 		qry.setParameter("name", "%"+name+"%");
-		return (List<Course>) qry.getResultList();
+		return  (List<Course>) qry.getResultList().stream().distinct().collect(Collectors.toList());
 	}
 	
 	public Course save(Course course) {
@@ -128,6 +130,19 @@ public class CourseRepository  {
 			em.persist(review);
 			course.addtReview(review);
 		}	
+		
+	}
+	
+	public void insertCourseAndStudent(Course course, Student student) {
+		
+		em.persist(course);
+		em.persist(student);
+		
+		course.setStudent(student);
+		student.setCourse(course);
+		
+		em.persist(student); // remember that in those situations(manyToMany) on last persist action persist the owning side of the relationship, the side which does not have the mappedBy
+		
 		
 	}
 	

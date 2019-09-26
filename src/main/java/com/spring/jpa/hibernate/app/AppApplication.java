@@ -1,5 +1,6 @@
 package com.spring.jpa.hibernate.app;
 
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,9 +12,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.spring.jpa.hibernate.app.entity.Course;
+import com.spring.jpa.hibernate.app.entity.Employee;
+import com.spring.jpa.hibernate.app.entity.FullTimeEmployee;
+import com.spring.jpa.hibernate.app.entity.PartTimeEmployee;
 import com.spring.jpa.hibernate.app.entity.Review;
 import com.spring.jpa.hibernate.app.entity.Student;
 import com.spring.jpa.hibernate.app.repository.CourseRepository;
+import com.spring.jpa.hibernate.app.repository.EmployeeRepository;
 import com.spring.jpa.hibernate.app.repository.ReviewRepository;
 import com.spring.jpa.hibernate.app.repository.StudentRepository;
 
@@ -29,6 +34,8 @@ public class AppApplication implements CommandLineRunner {
 	@Autowired
 	private ReviewRepository revRepo;
 	
+	private EmployeeRepository empRepo;
+	
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
@@ -38,13 +45,12 @@ public class AppApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		Student stu = new Student("Jose");
-		Course course  = courseRepo.findById(1L);
-		stu.setCourse(course);
-		Review rev = new Review("Foda", "5", course, stu);		
 		
-		//studentRepo.insertStudentAndReview(stu, rev);
-		revRepo.insertReviewAndStudent(rev, stu);
+		empRepo.insertEmployee(new FullTimeEmployee("Josías José Jeager", new BigDecimal(10000)));
+		
+		empRepo.insertEmployee(new PartTimeEmployee("Isaías Jose Jeager", new BigDecimal(75)));
+		
+		logger.info("All imployees -> {}", empRepo.findAll());
 		
 	}
 

@@ -3,7 +3,11 @@ package com.spring.jpa.hibernate.app.repository;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,6 +34,7 @@ public class CourseRepositoryTest {
 	
 	@Autowired
 	EntityManager em;
+	
 		
 	@Test
 	public void Course_findById() {

@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +30,13 @@ public class CourseRepository  {
 	EntityManager em;
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	
+	
+	public Set<Course> Course_find_all() {
+		logger.info("Tests Running !");
+		TypedQuery<Course> query = em.createNamedQuery("find_all", Course.class);
+		return query.getResultList().stream().distinct().sorted().collect(Collectors.toSet());		 
+	}
 	
 	public Course findById(Long id) {
 		return em.find(Course.class, id);

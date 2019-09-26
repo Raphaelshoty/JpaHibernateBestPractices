@@ -1,5 +1,6 @@
 package com.spring.jpa.hibernate.app.repository;
 
+import java.util.Comparator;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -28,7 +29,7 @@ public class PassportRepository   {
 	public Set<Passport> findByNumber(String number){
 		TypedQuery<Passport> query = em.createQuery("Select p from Passport p Where UPPER(p.number) Like Upper(:number)", Passport.class);
 		query.setParameter("number", "%"+number+"%");
-		return query.getResultList().stream().sorted().distinct().collect(Collectors.toSet());
+		return query.getResultList().stream().sorted(Comparator.comparing(Passport::getNumber)).distinct().collect(Collectors.toSet());
 	}
 	
 	public Passport save(Passport pass) {

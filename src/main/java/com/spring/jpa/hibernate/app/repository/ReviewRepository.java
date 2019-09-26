@@ -1,5 +1,6 @@
 package com.spring.jpa.hibernate.app.repository;
 
+import java.util.Comparator;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -29,7 +30,7 @@ public class ReviewRepository {
 	public Set<Review> findByDescription(String description){
 		TypedQuery<Review> query = em.createQuery("Select r From Review r Where Upper(r.description) Like Upper(:description)", Review.class );
 		query.setParameter("description", "%"+description+"%");
-		return query.getResultList().stream().distinct().sorted().collect(Collectors.toSet());
+		return query.getResultList().stream().distinct().sorted(Comparator.comparing(Review::getDescription)).collect(Collectors.toSet());
 	}
 	
 	public Review save(Review rev) {

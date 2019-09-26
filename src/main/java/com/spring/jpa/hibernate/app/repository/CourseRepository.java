@@ -1,5 +1,6 @@
 package com.spring.jpa.hibernate.app.repository;
 
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -35,7 +36,7 @@ public class CourseRepository  {
 	public Set<Course> Course_find_all() {
 		logger.info("Tests Running !");
 		TypedQuery<Course> query = em.createNamedQuery("find_all", Course.class);
-		return query.getResultList().stream().distinct().sorted().collect(Collectors.toSet());		 
+		return query.getResultList().stream().distinct().sorted(Comparator.comparing(Course::getName)).collect(Collectors.toSet());		 
 	}
 	
 	public Course findById(Long id) {

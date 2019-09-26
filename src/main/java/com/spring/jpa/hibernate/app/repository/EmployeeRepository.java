@@ -1,6 +1,7 @@
 package com.spring.jpa.hibernate.app.repository;
 
 
+import java.util.Comparator;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -28,7 +29,7 @@ public class EmployeeRepository {
 	// retrieve all employee
 	public Set<Employee> findAll(){
 		TypedQuery<Employee> qry = em.createQuery("Select emp from Employee emp", Employee.class);
-		return qry.getResultList().stream().sorted().collect(Collectors.toSet());
+		return qry.getResultList().stream().sorted(Comparator.comparing(Employee::getName)).collect(Collectors.toSet());
 	}
 
 }

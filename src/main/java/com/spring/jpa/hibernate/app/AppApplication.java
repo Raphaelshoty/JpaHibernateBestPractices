@@ -34,6 +34,7 @@ public class AppApplication implements CommandLineRunner {
 	@Autowired
 	private ReviewRepository revRepo;
 	
+	@Autowired
 	private EmployeeRepository empRepo;
 	
 	

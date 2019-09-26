@@ -2,9 +2,11 @@ package com.spring.jpa.hibernate.app.entity;
 
 import java.math.BigDecimal;
 
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 @Entity
+@DiscriminatorValue("fullTime")
 public class FullTimeEmployee  extends Employee{
 	
 	private BigDecimal salary;

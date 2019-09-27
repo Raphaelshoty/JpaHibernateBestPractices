@@ -4,9 +4,11 @@ import java.math.BigDecimal;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
-@DiscriminatorValue("fullTime")
+//@DiscriminatorValue("fullTime")
+
 public class FullTimeEmployee  extends Employee{
 	
 	private BigDecimal salary;

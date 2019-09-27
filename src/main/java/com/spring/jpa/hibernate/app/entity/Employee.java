@@ -15,12 +15,13 @@ import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name="Employee")
-@DiscriminatorColumn(name = "employee_type", discriminatorType = DiscriminatorType.STRING)
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+//@DiscriminatorColumn(name = "employee_type", discriminatorType = DiscriminatorType.STRING)
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Employee {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue // identity generation strategy cannot be used on table_per_class strategy of inheritance 
+	//@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	@Column(name = "name", nullable = false)

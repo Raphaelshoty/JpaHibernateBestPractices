@@ -4,10 +4,12 @@ import java.math.BigDecimal;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
 @Entity
-@DiscriminatorValue("partTime")
+//@DiscriminatorValue("partTime")
+
 public class PartTimeEmployee  extends Employee{
 		
 	private BigDecimal hourlyWage;	

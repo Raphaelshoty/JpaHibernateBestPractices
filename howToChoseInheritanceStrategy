@@ -1,0 +1,2 @@
+if you need a good data integrity, not repeated and null data - join strategy is a good choice
+in case you need performance - use single table strategy 

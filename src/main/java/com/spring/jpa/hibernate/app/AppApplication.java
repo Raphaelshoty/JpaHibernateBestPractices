@@ -51,7 +51,9 @@ public class AppApplication implements CommandLineRunner {
 		
 		empRepo.insertEmployee(new PartTimeEmployee("Isaías Jose Jeager", new BigDecimal(75)));
 		
-		logger.info("All imployees -> {}", empRepo.findAll());
+		//logger.info("All employees -> {}", empRepo.findAll());
+		logger.info("Full time employees -> {}", empRepo.findAllFullTimeEmployee());
+		logger.info("Part Time employees -> {}", empRepo.findAllPartTimeTimeEmployee());
 		
 	}
 

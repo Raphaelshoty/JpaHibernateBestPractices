@@ -9,21 +9,22 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
-
-@Entity
+@MappedSuperclass // when using mappedSuperClass inheritance strategy the superclass will no longer be an entity, only those that specialized from it, it means that only the specialized entity will be stored on database.
+//@Entity 
 @Table(name="Employee")
 //@Inheritance(strategy = InheritanceType.SINGLE_TABLE) // on that strategy, there will be created just one table containing all properties from mother class and the specialized classes, but to mark different classes on that table they will have flags to separate them
-//@DiscriminatorColumn(name = "employee_type", discriminatorType = DiscriminatorType.STRING)
+//@DiscriminatorColumn(name = "employee_type", discriminatorType = DiscriminatorType.STRING)// flag to column to diff entities on single table strategy
 //@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS) // on that strategy only the materialized class will have table and they will be separated from the mother class
-@Inheritance(strategy = InheritanceType.JOINED) // on that strategy, each class will have your table, but. that table will have only the specific properties of that class and those are in common with the mother class will be on a table that represents the mother class
+//@Inheritance(strategy = InheritanceType.JOINED) // on that strategy, each class will have your table, but. that table will have only the specific properties of that class and those are in common with the mother class will be on a table that represents the mother class
 public abstract class Employee {
 	
 	@Id
-	@GeneratedValue // identity generation strategy cannot be used on table_per_class strategy of inheritance 
-	//@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@GeneratedValue // identity generation strategy cannot be used on table_per_class strategy of inheritance 
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	@Column(name = "name", nullable = false)

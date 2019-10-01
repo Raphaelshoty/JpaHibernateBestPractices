@@ -47,13 +47,13 @@ public class AppApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		
-		empRepo.insertEmployee(new FullTimeEmployee("Josías José Jeager", new BigDecimal(10000)));
-		
-		empRepo.insertEmployee(new PartTimeEmployee("Isaías Jose Jeager", new BigDecimal(75)));
-		
-		//logger.info("All employees -> {}", empRepo.findAll());
-		logger.info("Full time employees -> {}", empRepo.findAllFullTimeEmployee());
-		logger.info("Part Time employees -> {}", empRepo.findAllPartTimeTimeEmployee());
+//		empRepo.insertEmployee(new FullTimeEmployee("Josías José Jeager", new BigDecimal(10000)));
+//		
+//		empRepo.insertEmployee(new PartTimeEmployee("Isaías Jose Jeager", new BigDecimal(75)));
+//		
+//		//logger.info("All employees -> {}", empRepo.findAll());
+//		logger.info("Full time employees -> {}", empRepo.findAllFullTimeEmployee());
+//		logger.info("Part Time employees -> {}", empRepo.findAllPartTimeTimeEmployee());
 		
 	}
 

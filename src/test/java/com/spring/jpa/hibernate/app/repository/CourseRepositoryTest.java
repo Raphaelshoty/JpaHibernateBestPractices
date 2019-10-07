@@ -17,7 +17,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
+
+//import java.sql.Connection; // here i can see the isolation levels and choose between them 
 
 import com.spring.jpa.hibernate.app.AppApplication;
 import com.spring.jpa.hibernate.app.entity.Course;
@@ -46,8 +49,17 @@ public class CourseRepositoryTest {
 		
 	@Test
 	@DirtiesContext // this way the data changed will return to its original state before the test
-	@Transactional
+	@Transactional(isolation = Isolation.READ_UNCOMMITTED)  // the isolation level is set to specific method but it could be stablished to an specific repository
 	public void Course_deleteById() {
+		logger.info("Tests Running !");			
+		repository.deleteById(2l);		
+		assertNull(repository.findById(2l));
+	}
+	
+	@Test
+	@DirtiesContext // this way the data changed will return to its original state before the test
+	@javax.transaction.Transactional // better use for just one database - for multiple dadabases use @Transactional from Spring
+	public void Course_deleteByIdUsingJpaTransactional() {
 		logger.info("Tests Running !");			
 		repository.deleteById(2l);		
 		assertNull(repository.findById(2l));
@@ -100,6 +112,9 @@ public class CourseRepositoryTest {
 	}
 
 
+	
+	
+	
 	
 
 

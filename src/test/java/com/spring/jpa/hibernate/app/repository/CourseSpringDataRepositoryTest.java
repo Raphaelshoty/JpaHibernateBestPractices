@@ -1,10 +1,12 @@
 package com.spring.jpa.hibernate.app.repository;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
@@ -14,7 +16,6 @@ import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -74,8 +75,7 @@ public class CourseSpringDataRepositoryTest {
 	public void findAllWithSort() {
 		logger.info("Tests Running ! find all with sort");
 		//Sort sort1 = new Sort(Direction.DESC, "name");
-		//Sort sort = new Sort(Direction.DESC, "id").and(sort1); // its a sort like in where clause in SQL queries 
-		List orders;		
+		//Sort sort = new Sort(Direction.DESC, "id").and(sort1); // its a sort like in where clause in SQL queries 				
 		Sort sort = new Sort(Direction.DESC, "id"); // its a sort like in where clause in SQL queries 
 		List<Course> courses = repository.findAll(sort); // here i apply the sort parameter
 		logger.info("Sorted courses ->{}", courses);
@@ -96,6 +96,24 @@ public class CourseSpringDataRepositoryTest {
 		logger.info("Second page of results ->{}", firstPage.nextPageable());
 		assertEquals(2, firstPage.nextPageable().getPageSize());
 	}
+	
+	@Test	
+	public void findByNameWithJPQL() {
+		logger.info("Tests Running ");
+		String pieceOfName = "full";
+		Set<Course> coursesByName = repository.findByNameWithJPQL("%"+pieceOfName+"%");
+		logger.info("Courses found by a piece of its name ->{}", coursesByName);
+		assertFalse(coursesByName.isEmpty());		
+	}
+	
+	@Test	
+	public void findByName() {
+		logger.info("Tests Running");
+		logger.info("courses found by its complete name - >{}", repository.findByName("Spring Angular full stack", new Sort(Direction.ASC, "name")));	
+		assertEquals("Spring Angular full stack", repository.findByName("Spring Angular full stack", new Sort(Direction.ASC, "name")).get(0).getName());
+	}
+	
+	
 		
 	
 

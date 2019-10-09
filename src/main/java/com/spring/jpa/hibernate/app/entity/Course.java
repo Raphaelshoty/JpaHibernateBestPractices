@@ -19,6 +19,9 @@ import javax.validation.constraints.NotBlank;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 @Entity
@@ -41,6 +44,7 @@ public class Course {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "course")	 // WHERE THE mappedBy goes i should not use @JoinColumn or @JoinTable 
 	private Set<Review> reviews = new HashSet<>();
 	
+	//@JsonIgnore // this is just for exemplification of the spring-boot-starter-data-rest dependency and @RepositoryRestResource over the interface that extends jpaRepository
 	@ManyToMany(mappedBy = "courses",fetch = FetchType.LAZY)	
 	private Set<Student> students = new HashSet<>();
 	

@@ -34,7 +34,7 @@ public interface CourseSpringDataRepository extends JpaRepository<Course, Long> 
 	@Query("Update Course c set c.name = 'Spring is Awesome' Where Upper(c.name) like Upper(:name)")
 	int updateCourseNames(String name);
 	
-	@Query("Select c from Course c Join Fetch c.students s Where Lower(s.name) Like Lower(%"+":studentName"+"%)  Order By c.name DESC")
+	@Query("Select c from Course c Join Fetch c.students s Where Lower(s.name) Like Lower(:studentName)  Order By c.name DESC")
 	Set<Course> findAllByStudent(String studentName);
 	
 	// if needed i can create update insert delete and so on just by following the naming covention  like deleteBySomething findBySomething 

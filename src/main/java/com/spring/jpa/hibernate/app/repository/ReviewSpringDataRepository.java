@@ -18,7 +18,7 @@ public interface ReviewSpringDataRepository extends JpaRepository<Review, Long>{
 	@Query("Select r From Review r Join Fetch r.student s Where lower(s.name) = lower(:studentName)")
 	Set<Review> findByStudentName(String studentName);
 	
-	@Query("Select r From Review r Where lower(r.description) like(%"+":description"+"%)")
+	@Query("Select r From Review r Where lower(r.description) like lower(:description)")
 	Set<Review> findByDescriptionContent(String description);
 
 }

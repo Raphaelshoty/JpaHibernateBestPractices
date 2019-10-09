@@ -9,10 +9,10 @@ import com.spring.jpa.hibernate.app.entity.Student;
 
 public interface StudentSpringDataRepository extends JpaRepository<Student, Long> {
 
-	@Query("Select s From Student s Where lower(s.name) like lower(%"+ ":name" +"%)")
-	Set<Student> findByName(String name);
+	@Query("Select s From Student s Where lower(s.name) like lower(:name)")
+	Set<Student> findByPartialName(String name);
 	
-	@Query("Select s From Student s Join Fetch s.courses c Where lower(c.name) like(%"+":name"+"%) ")
+	@Query("Select s From Student s Join Fetch s.courses c Where lower(c.name) like(:name) ")
 	Set<Student> findAllByCourseName(String name);
 	
 	@Query("Select s From Student s Join Fetch s.reviews r Where r.id = :revId ")

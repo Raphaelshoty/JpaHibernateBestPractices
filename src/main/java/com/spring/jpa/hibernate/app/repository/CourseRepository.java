@@ -14,12 +14,16 @@ import javax.persistence.TypedQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.jpa.hibernate.app.entity.Course;
 import com.spring.jpa.hibernate.app.entity.Review;
 import com.spring.jpa.hibernate.app.entity.Student;
+
+@RepositoryRestResource(path = "courses") // to use this feature on exposing this methods and the repository as an service add the spring-boot-starter-data-rest dependency on POM.xml
+//doing this above im exposing the repository as /courses
 
 //mark this repository as a Stereotype Repository, this way the repo is collected and inserted on SPRING 
 //context

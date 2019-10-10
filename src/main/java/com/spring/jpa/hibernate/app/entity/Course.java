@@ -19,9 +19,6 @@ import javax.validation.constraints.NotBlank;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.rest.core.annotation.RepositoryRestResource;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 @Entity

@@ -2,9 +2,7 @@ package com.spring.jpa.hibernate.app.entity;
 
 import java.math.BigDecimal;
 
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.Table;
 
 @Entity
 //@DiscriminatorValue("fullTime")

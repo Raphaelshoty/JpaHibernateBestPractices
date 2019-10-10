@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -27,6 +28,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 	@NamedQuery(name = "find_all", query = "Select c From Course c"),
 	@NamedQuery(name = "find_all_parameter", query = "Select c from Course c Where Upper(c.name) = Upper('SPRING') ")
 })
+@Cacheable(value = true) // this way Im informing that this entity can be stored on second level cache, because this data stored on course is not updated so frequently
 public class Course {
 	
 	@Id

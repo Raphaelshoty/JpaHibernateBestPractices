@@ -46,6 +46,21 @@ public class CourseRepositoryTest {
 		assertEquals("Spring Boot", course.getName());
 		assertEquals(new Long(2), course.getId());
 	}
+	
+	@Test
+	@Transactional
+	public void Course_findByIdFirstLevelCache() { // first level cache - when a single data is required more than once in a single transaction and its stored in cache
+		// as a good use of the first level cache, the transaction should start at the service layer, so... all the calls below it could be stored on cache for further data calls.
+		logger.info("Tests Running !");		
+		Course course = repository.findById(2l); // since this query is the first one, this will fire a query over the database 	
+		logger.info("First course retrieved ! {}",course);
+		
+		Course course1 = repository.findById(2l); //  when inside an transaction if the same data is required again, there´s no need to retrieve it again over the database, its already stored on first level cache
+		logger.info("The same course retrieved again ! {}", course1);
+		
+		assertEquals("Spring Boot", course.getName()); 
+		assertEquals("Spring Boot", course1.getName());
+	}
 		
 	@Test
 	@DirtiesContext // this way the data changed will return to its original state before the test

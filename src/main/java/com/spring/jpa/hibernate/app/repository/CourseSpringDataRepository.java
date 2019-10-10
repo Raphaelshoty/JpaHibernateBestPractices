@@ -11,7 +11,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import com.spring.jpa.hibernate.app.entity.Course;
 
-@RepositoryRestResource(path = "courses") // to use this feature on exposing this methods and the repository as an service add the spring-boot-starter-data-rest dependency on POM.xml
+//@RepositoryRestResource(path = "courses") // to use this feature on exposing this methods and the repository as an service add the spring-boot-starter-data-rest dependency on POM.xml
 // doing this above im exposing the repository as /courses
 public interface CourseSpringDataRepository extends JpaRepository<Course, Long> {
 

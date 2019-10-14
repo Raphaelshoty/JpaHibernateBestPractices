@@ -6,6 +6,7 @@ import java.util.Set;
 
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -15,11 +16,18 @@ import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.PreRemove;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.websocket.ClientEndpoint;
 
+import org.apache.tomcat.jni.Address;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.Where;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 @Entity
@@ -29,7 +37,11 @@ import org.hibernate.annotations.UpdateTimestamp;
 	@NamedQuery(name = "find_all_parameter", query = "Select c from Course c Where Upper(c.name) = Upper('SPRING') ")
 })
 @Cacheable(value = true) // this way Im informing that this entity can be stored on second level cache, because this data stored on course is not updated so frequently
+@SQLDelete(sql = "UPDATE course SET is_deleted = true Where id = ?") // this simple sql will inform that if some row on this entity is being deleted, execute this sql
+@Where(clause = "is_deleted = false")// this annotation will tell to select just those rows that are not marked as true
 public class Course {
+	
+	private static Logger LOGGER = LoggerFactory.getLogger(Course.class);
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,9 +67,20 @@ public class Course {
 	@CreationTimestamp
 	private LocalDateTime creationDate;
 	
+	//in order to provide an way to maintain the data on database doing a soft delete this flag will tell if it is deleted from system or not.	
+	@Column(name = "is_deleted")
+	private boolean isDeleted;
+	
+	@PreRemove // provide some actions before the removal of the entity 
+	private void preRemove() {
+		LOGGER.info("Setting is_deleted to true");
+		this.isDeleted = true;
+	}
+	
 	protected Course() {}
 	
 	public Course(String name) {
+		this.isDeleted = false; // to tell that the course is active since that was just created
 		this.name = name;
 	}
 
@@ -102,8 +125,17 @@ public class Course {
 	}
 	public void removeStudent(Student student) {
 		this.students.remove(student);
+	}	
+
+	public boolean isDeleted() {
+		return isDeleted;
 	}
 
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}	
+
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

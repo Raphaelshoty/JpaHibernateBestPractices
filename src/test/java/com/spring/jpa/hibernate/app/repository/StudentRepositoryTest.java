@@ -12,7 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.jpa.hibernate.app.AppApplication;
-
+import com.spring.jpa.hibernate.app.entity.Address;
 import com.spring.jpa.hibernate.app.entity.Passport;
 import com.spring.jpa.hibernate.app.entity.Student;
 
@@ -67,11 +67,30 @@ public class StudentRepositoryTest {
 		Student stu = em.find(Student.class, 1L);
 		logger.info("Student -> {}",stu);
 		logger.info("Student courses-> {}",stu.getCourses());
-		
-		
-		
-		
+				
 	}
+	
+	@Test
+	@Transactional
+	public void setAddresDetails(){
+		Student stu = studentRepo.findById(1L);
+		stu.setAddress(new Address("Eufrásia Augusta de Jesus", 43));
+		em.flush(); // ensuring that this new address will persisted on database 
+		logger.info("Student {} lives in {}", stu.getName(), stu.getAddress());
+	}
+	
+	@Test
+	@Transactional
+	public void setStudentAndAddress(){
+		Student stu = new Student("Elias");
+		stu.setAddress(new Address("Almerinda Costa Ribeiro", 25));
+		studentRepo.save(stu);
+		em.flush(); // ensuring that this new address will persisted on database 
+		logger.info("Student {} lives in {}", studentRepo.findById(6l).getName(), studentRepo.findById(6l).getAddress()); // just to notice that in this step those data will not be searched on database
+		// because those data are already on first level cache.
+	}
+	
+	
 	
 	
 

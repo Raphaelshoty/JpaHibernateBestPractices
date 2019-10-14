@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.jpa.hibernate.app.entity.Course;
 import com.spring.jpa.hibernate.app.entity.Review;
+import com.spring.jpa.hibernate.app.entity.ReviewRating;
 import com.spring.jpa.hibernate.app.entity.Student;
 
 @RepositoryRestResource(path = "courses") // to use this feature on exposing this methods and the repository as an service add the spring-boot-starter-data-rest dependency on POM.xml
@@ -117,8 +118,8 @@ public class CourseRepository  {
 		
 		// creating 2 reviews to it
 		Set<Review> reviews = new HashSet<>();
-		reviews.add(new Review("Amazing course and amazing instructor", "5"));
-		reviews.add(new Review("Very good explanations and examples", "4,8"));
+		reviews.add(new Review("Amazing course and amazing instructor", ReviewRating.FIVE));
+		reviews.add(new Review("Very good explanations and examples", ReviewRating.FOUR));
 		
 		// for each review add it to the course set of reviews
 		for (Review review : reviews) {

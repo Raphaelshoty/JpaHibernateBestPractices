@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
@@ -18,6 +19,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+
+import com.spring.jpa.hibernate.app.entity.Address;
 
 @Entity
 @Table(name= "Student")
@@ -46,6 +49,9 @@ public class Student {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "student")
 	private Set<Review> reviews = new HashSet<>();
 	
+	
+	@Embedded // this is a class that will be embedded on this class as a property, this is different than a mapping like manyToOne
+	private com.spring.jpa.hibernate.app.entity.Address address;
 	
 	public Student() {		
 	}
@@ -97,6 +103,14 @@ public class Student {
 
 	public void setReview(Review review) {
 		this.reviews.add(review);
+	}
+	
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
 	}
 
 	@Override

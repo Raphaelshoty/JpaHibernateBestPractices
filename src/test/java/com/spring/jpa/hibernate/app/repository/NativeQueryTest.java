@@ -11,12 +11,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.jpa.hibernate.app.AppApplication;
 import com.spring.jpa.hibernate.app.entity.Course;
+
+// when working with softDelete its on developer to do the Where clause in the sql  see on NativeQueryTestSimpleWithWhere method
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = AppApplication.class)
@@ -39,8 +40,15 @@ public class NativeQueryTest {
 	}
 	
 	@Test// native query using simple SQL syntax 
+	public void NativeQueryTestSimpleWithWhere() { 
+		Query query = em.createNativeQuery("SELECT * FROM COURSE WHERE is_deleted = 0", Course.class);  // select courses that are not active, it means that those courses retrieved are marked as true to deleted
+		List<Course> resultList = query.getResultList();
+		logger.info("SELECT * FROM COURSE -> {}", resultList );
+	}
+	
+	@Test// native query using simple SQL syntax 
 	public void NativeQueryTestWithParameter() { 
-		Query query = em.createNativeQuery("SELECT * FROM COURSE WHERE ID = :id", Course.class);
+		Query query = em.createNativeQuery("SELECT * FROM COURSE WHERE ID = :id", Course.class); 
 		query.setParameter("id", 1L);
 		Course result = (Course) query.getSingleResult();
 		logger.info("SELECT * FROM COURSE -> {}", result );

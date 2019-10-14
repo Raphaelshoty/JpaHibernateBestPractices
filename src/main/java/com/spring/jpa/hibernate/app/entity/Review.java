@@ -2,6 +2,8 @@ package com.spring.jpa.hibernate.app.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
@@ -25,9 +27,10 @@ public class Review {
 	@Column(name="description")	
 	private String description;
 	
+	@Enumerated(value = EnumType.ORDINAL) // this way im specifying the ReviewRating as a enum to be stored on database as a property and this property on database is stored as number
 	@Column(name = "rating")
-	@NotBlank
-	private String rating;
+	@NotNull
+	private ReviewRating rating;
 	
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY) // the default fetch to manyToOne is Eager and its reverse OneToMany is Lazy
@@ -41,12 +44,12 @@ public class Review {
 	
 	public Review(){}
 	
-	public Review(String description,@NotBlank  String rating) {
+	public Review(String description,@NotNull  ReviewRating rating) {
 		this.rating = rating;
 		this.description = description;
 	}
 	
-	public Review(String description, @NotBlank String rating, @NotNull Course course, @NotNull Student student) {
+	public Review(String description, @NotNull ReviewRating rating, @NotNull Course course, @NotNull Student student) {
 		this.description = description;
 		this.rating = rating;
 		this.course = course;
@@ -65,11 +68,11 @@ public class Review {
 		return id;
 	}
 
-	public String getRating() {
+	public ReviewRating getRating() {
 		return rating;
 	}
 
-	public void setRating(String rating) {
+	public void setRating(ReviewRating rating) {
 		this.rating = rating;
 	}	
 

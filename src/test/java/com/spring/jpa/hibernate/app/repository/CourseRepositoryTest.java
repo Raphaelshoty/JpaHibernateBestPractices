@@ -70,6 +70,13 @@ public class CourseRepositoryTest {
 		repository.deleteById(2l);		
 		assertNull(repository.findById(2l));
 	}
+	@Test
+	@DirtiesContext // this way the data changed will return to its original state before the test	
+	public void deleteById() {
+		logger.info("Tests Running ! delete a course by its ID");			
+		repository.deleteById(2l);		
+		assertNull(repository.findById(2l));
+	}
 	
 	@Test
 	@DirtiesContext // this way the data changed will return to its original state before the test

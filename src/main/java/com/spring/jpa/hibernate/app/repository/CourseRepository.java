@@ -33,7 +33,7 @@ import com.spring.jpa.hibernate.app.entity.Student;
 public class CourseRepository  {
 	//inject the entity manager
 	@Autowired
-	EntityManager em;
+	private EntityManager em;
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	

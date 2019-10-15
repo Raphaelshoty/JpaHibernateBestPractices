@@ -20,7 +20,7 @@ import com.spring.jpa.hibernate.app.entity.Student;
 public class StudentRepository {
 	
 	@Autowired
-	EntityManager em;
+	private EntityManager em;
 	
 	
 	public Student findById(Long id) {

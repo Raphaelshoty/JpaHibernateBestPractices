@@ -6,7 +6,9 @@ import static org.junit.Assert.assertNull;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
+import javax.persistence.Subgraph;
 import javax.persistence.TypedQuery;
 
 import org.junit.Test;
@@ -131,6 +133,22 @@ public class CourseRepositoryTest {
 	public void retrieveCourseAndStudents() {		
 		Course course = em.find(Course.class, 2L);
 		logger.info("Course -> {} and students attending to it -> {}", course, course.getStudents());
+	}
+	
+	@Test
+	@Transactional
+	public void retrieveCourseAndStudentsUsingGraph() {	// the use of graphs is one of the ways to avoid N+1 problem, the other way is to use clause fetch on queries 	
+		EntityGraph<Course> entityGraph = em.createEntityGraph(Course.class);
+		Subgraph<Course> subGraph = entityGraph.addSubgraph("students");
+		
+		Set<Course> courses = em.createNamedQuery("find_all",Course.class)
+				.setHint("javax.persistence.loadgraph", entityGraph)
+				.getResultList()
+				.stream()
+				.collect(Collectors.toSet());
+		courses.stream().forEach(c ->{
+			logger.info("Course name -> {} and course students ->{}", c.getName(), c.getStudents());
+		});
 	}
 
 
